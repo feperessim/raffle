@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class LotteriesController < Api::BaseController    
+    class LotteriesController < Api::BaseController
       class NoEligibleError < ActiveRecord::RecordNotFound; end
 
       rescue_from NoEligibleError do
