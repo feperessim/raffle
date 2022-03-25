@@ -24,7 +24,7 @@ RSpec.describe 'api/v1/lotteries', type: :request do
 
         it 'creates a new lottery' do
           expect do
-            post api_v1_lotteries_path, headers:
+            post api_v1_lotteries_path, headers: headers
           end.to change { Lottery.count }.by(1)
         end
 
@@ -44,7 +44,7 @@ RSpec.describe 'api/v1/lotteries', type: :request do
       context 'when there are no people eligible for lottering' do
         it 'does not create a new lottery' do
           expect do
-            post api_v1_lotteries_path, headers:
+            post api_v1_lotteries_path, headers: headers
           end.not_to change { Lottery.count }
         end
 
@@ -66,7 +66,7 @@ RSpec.describe 'api/v1/lotteries', type: :request do
 
       it 'does not create a new lottery' do
         expect do
-          post api_v1_lotteries_path, headers:
+          post api_v1_lotteries_path, headers: headers
         end.not_to change { Lottery.count }
       end
 
