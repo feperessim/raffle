@@ -25,11 +25,10 @@ module Api
       private
 
       def random_draw
-        @person = Person.not_drawn_people.random_draw             
-      
+        @person = Person.not_drawn_people.random_draw
       rescue ActiveRecord::RecordNotFound
         raise NotEligibleError
       end
-      end
     end
+  end
 end
