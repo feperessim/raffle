@@ -14,7 +14,7 @@ module Api
     rescue_from ActiveRecord::RecordNotFound,
                 ActiveRecord::RecordInvalid,
                 ActionController::ParameterMissing,
-                with: :render_active_record_error
+                with: :render_api_error
 
     before_action :authenticate
 
@@ -27,7 +27,7 @@ module Api
       render_error('Unexpected Error', :internal_server_error)
     end
 
-    def render_active_record_error(exception)
+    def render_api_error(exception)
       render_error(exception.message, STATUSES.fetch(exception.class, :internal_server_error))
     end
 
