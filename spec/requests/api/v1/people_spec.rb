@@ -190,12 +190,12 @@ RSpec.describe 'api/v1/people', type: :request do
 
   describe 'DELETE /api/v1/person/:id' do
     context 'when person exists' do
-      let!(:person) { Person.create!(name: 'Nameless', cpf: '000.000.000-00', birthday: '2011-11-11') }
+      let!(:person) { Person.create!(name: 'Nameless', cpf: '000.000.000-00', birthday: '2011-11-11', active: true) }
 
-      it 'deletes user' do
+      it 'deletes person (turns it inactive)' do
         expect do
           delete api_v1_person_path(person)
-        end.to change { Person.count }
+        end.to change { Person.first.active }
       end
 
       it 'returns http status success' do

@@ -6,7 +6,7 @@ module Api
       skip_before_action :authenticate
 
       def index
-        @people = Person.all
+        @people = Person.all_active
 
         render json: @people, status: :ok, each_serializer: Api::V1::PersonSerializer
       end
@@ -33,7 +33,7 @@ module Api
       def destroy
         @person = Person.find(params[:id])
 
-        @person.destroy!
+        @person.update!(active: false)
         render json: @person, status: :ok, serializer: Api::V1::PersonSerializer
       end
 
