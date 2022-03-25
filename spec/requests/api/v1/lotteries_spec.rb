@@ -3,6 +3,52 @@
 require 'rails_helper'
 
 RSpec.describe 'api/v1/lotteries', type: :request do
+  describe 'GET /api/v1/lotteries' do
+    let(:headers) { { Authorization: 'Token 1234' } }
+
+    it 'returns http status success' do
+      get api_v1_lotteries_path, headers: headers
+
+      expect(response).to have_http_status(:success)
+    end
+
+    let(:winners) do
+      [
+        {
+          raffle_date: '2022-03-23',
+          winner: {
+            name: 'Isaac Newton', cpf: '000.001.003-05', birthday: '1943-01-04'
+          }
+        },
+        {
+          raffle_date: '2022-03-25',
+          winner: {
+            name: 'Leonhard Euler', cpf: '271.828.182-84', birthday: '1707-04-15'
+          }
+        }
+      ]
+    end
+
+    let(:person1) do
+      Person.create!(name: 'Isaac Newton', cpf: '000.001.003-05', birthday: '1943-01-04', active: true)
+    end
+
+    let(:person2) do
+      Person.create!(name: 'Leonhard Euler', cpf: '271.828.182-84', birthday: '1707-04-15', active: false)
+    end
+
+    before do
+      Lottery.create!(raffle_date: '2022-03-23', person: person1)
+      Lottery.create!(raffle_date: '2022-03-25', person: person2)
+    end
+
+    it 'returns the expected response body' do
+      get api_v1_lotteries_path, headers: headers
+
+      expect(response.body).to eq(winners.to_json)
+    end
+  end
+
   describe 'POST /api/v1/lotteries' do
     context 'when the Authorization header is valid' do
       let(:headers) { { Authorization: 'Token 1234' } }
@@ -24,7 +70,7 @@ RSpec.describe 'api/v1/lotteries', type: :request do
 
         it 'creates a new lottery' do
           expect do
-            post api_v1_lotteries_path, headers: headers
+            post api_v1_lotteries_path, headers:
           end.to change { Lottery.count }.by(1)
         end
 
@@ -44,7 +90,7 @@ RSpec.describe 'api/v1/lotteries', type: :request do
       context 'when there are no people eligible for lottering' do
         it 'does not create a new lottery' do
           expect do
-            post api_v1_lotteries_path, headers: headers
+            post api_v1_lotteries_path, headers:
           end.not_to change { Lottery.count }
         end
 
@@ -66,7 +112,7 @@ RSpec.describe 'api/v1/lotteries', type: :request do
 
       it 'does not create a new lottery' do
         expect do
-          post api_v1_lotteries_path, headers: headers
+          post api_v1_lotteries_path, headers:
         end.not_to change { Lottery.count }
       end
 
