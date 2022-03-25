@@ -8,7 +8,13 @@ module Api
       rescue_from NotEligibleError do
         render_error('There are no eligible people to be drawn', :precondition_failed)
       end
-      
+
+      def index
+        @lotteries = Lottery.all
+
+        render json: @lotteries, status: :ok, each_serializer: Api::V1::LotterySerializer
+      end
+
       def create
         @person = random_draw
         @lottery = Lottery.create!(person: @person, raffle_date: Time.now)
@@ -16,14 +22,14 @@ module Api
         render json: @lottery, status: :created, serializer: Api::V1::LotterySerializer
       end
 
-    private
+      private
 
-    def random_draw
-      @person = Person.not_drawn_people.random_draw             
+      def random_draw
+        @person = Person.not_drawn_people.random_draw             
       
-    rescue ActiveRecord::RecordNotFound
-      raise NotEligibleError
-    end
+      rescue ActiveRecord::RecordNotFound
+        raise NotEligibleError
+      end
     end
   end
 end
