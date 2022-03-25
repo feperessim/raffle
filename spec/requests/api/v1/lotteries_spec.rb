@@ -4,6 +4,10 @@ require 'rails_helper'
 
 RSpec.describe 'api/v1/lotteries', type: :request do
   describe 'POST /api/v1/lotteries' do
+    before do
+      stub_const("Api::BaseController::AUTH_TOKEN", '1234')
+    end
+
     context 'when the Authorization header is valid' do
       let(:headers) { { Authorization: 'Token 1234' } }
 

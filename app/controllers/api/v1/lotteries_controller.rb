@@ -3,9 +3,9 @@
 module Api
   module V1
     class LotteriesController < Api::BaseController
-      class NoEligibleError < ActiveRecord::RecordNotFound; end
+      class NotEligibleError < ActiveRecord::RecordNotFound; end
 
-      rescue_from NoEligibleError do
+      rescue_from NotEligibleError do
         render_error('There are no eligible people to be drawn', :precondition_failed)
       end
       
@@ -22,7 +22,7 @@ module Api
       @person = Person.not_drawn_people.random_draw             
       
     rescue ActiveRecord::RecordNotFound
-      raise NoEligibleError
+      raise NotEligibleError
     end
     end
   end

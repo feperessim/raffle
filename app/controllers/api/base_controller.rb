@@ -8,6 +8,8 @@ module Api
       ActionController::ParameterMissing => :unprocessable_entity
     }.freeze
 
+    AUTH_TOKEN = ENV['TOKEN']
+
     include ActionController::HttpAuthentication::Token::ControllerMethods
 
     rescue_from StandardError, with: :render_standard_error
@@ -37,7 +39,7 @@ module Api
 
     def authenticate
       authenticate_or_request_with_http_token do |token, _|
-        ActiveSupport::SecurityUtils.secure_compare(token, ENV['TOKEN'])
+        ActiveSupport::SecurityUtils.secure_compare(token, AUTH_TOKEN)
       end
     end
   end
