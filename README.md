@@ -16,7 +16,9 @@
 ```
 $ bundle install
 $ bundle exec rails db:create db:migrate
+$ cp .env.example .env
 ```
+After this step, replace 'your_token_here' by your token in .env file
 
 ### Testing
 

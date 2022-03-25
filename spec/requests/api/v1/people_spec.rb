@@ -21,7 +21,6 @@ RSpec.describe 'api/v1/people', type: :request do
       Person.create!(name: 'Isaac Newton', cpf: '000.001.003-05', birthday: '1943-01-04')
       Person.create!(name: 'Leonhard Euler', cpf: '271.828.182-84', birthday: '1707-04-15')
       Person.create!(name: 'Felipe', cpf: '000.000.000', birthday: '1900-01-01')
-      people
     end
 
     it 'returns the expected response body' do
@@ -36,7 +35,7 @@ RSpec.describe 'api/v1/people', type: :request do
       it 'creates a new person' do
         expect do
           post api_v1_people_path, params: { person: { name: 'New Person', cpf: '000.000.000-00' } }
-        end.to change { Person.count }
+        end.to change { Person.count }.by(1)
       end
 
       it 'returns http status created' do

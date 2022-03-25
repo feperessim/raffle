@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_21_190631) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_23_181442) do
+  create_table "lotteries", force: :cascade do |t|
+    t.date "raffle_date"
+    t.integer "person_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_lotteries_on_person_id"
+  end
+
   create_table "people", force: :cascade do |t|
     t.string "name"
     t.string "cpf"
@@ -19,4 +27,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_21_190631) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "lotteries", "people"
 end
