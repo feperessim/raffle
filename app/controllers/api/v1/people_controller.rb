@@ -3,6 +3,8 @@
 module Api
   module V1
     class PeopleController < Api::BaseController
+      skip_before_action :authenticate
+
       def index
         @people = Person.all
 
