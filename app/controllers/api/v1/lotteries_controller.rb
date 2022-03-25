@@ -30,6 +30,6 @@ module Api
       rescue ActiveRecord::RecordNotFound
         raise NotEligibleError
       end
+      end
     end
-  end
 end
